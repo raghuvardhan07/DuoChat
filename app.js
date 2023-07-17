@@ -12,7 +12,7 @@ let connected = await connectToMongoDB()
 console.log(connected);
 
 const store = new MongoDBStoreSession({
-    uri: process.env.MONGODB_URI, 
+    uri: process.env.MONGODB_URI || "mongodb+srv://vardhanvsr2004:Chantiv%40123@cluster0.um71hbz.mongodb.net/co-learn?retryWrites=true&w=majority", 
     collection: 'sessions'
 })
 

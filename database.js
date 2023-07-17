@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 
 dotenv.config();
 
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI || "mongodb+srv://vardhanvsr2004:Chantiv%40123@cluster0.um71hbz.mongodb.net/co-learn?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 let db;
 
