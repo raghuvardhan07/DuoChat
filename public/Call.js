@@ -1,5 +1,5 @@
 
-let APP_ID = process.env.APP_ID
+let APP_ID = "fcc3eec1f13a4294a61902e446b2588b"
 
 let uid = document.getElementById('user-1').dataset.uid
 let theyid = document.getElementById('user-2').dataset.theyid
