@@ -37,8 +37,6 @@ let init = async () => {
   document.getElementById('user-1').srcObject = localStream;
 };
 
-
-
 let handleMessageFromPeer = async (message, MemberId) => {
   message = JSON.parse(message.text);
 
@@ -62,18 +60,18 @@ let handleMessageFromPeer = async (message, MemberId) => {
   }
 };
 
-
 let handleUserJoined = async (MemberId) => {
   console.log('A new user joined the channel:', MemberId);
   if (MemberId === uid) {
     createOffer(MemberId);
-    document.getElementById('username').style.display = 'none'; // Hide the username when the user is in the call
+    document.getElementById('username').style.display = 'none'; // Hide the username when you join the call
+    prompting(); // Start prompting when you join the call
   } else if (!theyid) {
     theyid = MemberId;
     createOffer(MemberId);
     document.getElementById('username').style.display = 'none'; // Hide the username when the user is in the call
   }
-  prompting(); // Start prompting when another person joins the call
+  // Don't call prompting() here. We want the user who joined later to start prompting.
 };
 
 let handleUserLeft = (MemberId) => {
@@ -188,15 +186,15 @@ init();
 
 let prompts = ['What are you most worried about right now?', 'What would motivate you to run a marathon?', 'Would you rather go without junk food for a year or go without TV for a year?', 'If you could meet anybody in history, past or present, who would it be?', 'Which is better, being the boss or an employee?', 'Do you believe in fate?', "What are some things that you shouldn't say during a marriage proposal?", 'What is your favorite day of the year?', 'What movies have you re-watched the most number of times?' , 'What is the best part of your day?', 'Do you prefer cats or dogs?', 'Describe your favorite type of pizza?', 'What is your favorite sports team?', 'What was your worst restaurant experience?'];
 
-function getPrompts(){
-    let promptsArray = prompts
-    let randomIndex = Math.floor(Math.random() * prompts.length)
-    let element = promptsArray[randomIndex]
-    promptsArray = promptsArray.splice(promptsArray.indexOf(element), 1)
-    return element
+function getPrompts() {
+  let promptsArray = prompts;
+  let randomIndex = Math.floor(Math.random() * prompts.length);
+  let element = promptsArray[randomIndex];
+  promptsArray.splice(randomIndex, 1); // Fix the removal of prompt from the array
+  return element;
 }
 
-let notification = new Audio('sounds/notif.wav')
+let notification = new Audio('sounds/notif.wav');
 
 function showPrompt(message) {
   const interval = 4000;
