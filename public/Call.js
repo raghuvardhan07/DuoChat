@@ -36,12 +36,7 @@ let init = async () => {
   document.getElementById('user-1').srcObject = localStream;
 };
 
-let handleUserLeft = (MemberId) => {
-  if (MemberId === theyid) {
-    document.getElementById('user-2').style.display = 'none';
-    theyid = null; // Reset theyid to allow matching with a new user
-  }
-};
+
 
 let handleMessageFromPeer = async (message, MemberId) => {
   message = JSON.parse(message.text);
@@ -61,15 +56,32 @@ let handleMessageFromPeer = async (message, MemberId) => {
   }
 };
 
+
 let handleUserJoined = async (MemberId) => {
   console.log('A new user joined the channel:', MemberId);
   if (MemberId === uid) {
     createOffer(MemberId);
+    document.getElementById('username').style.display = 'none'; // Hide the username when the user is in the call
   } else if (!theyid) {
     theyid = MemberId;
     createOffer(MemberId);
+    document.getElementById('username').style.display = 'none'; // Hide the username when the user is in the call
   }
-  prompting();
+  prompting(); // Start prompting when another person joins the call
+};
+
+let handleUserLeft = (MemberId) => {
+  if (MemberId === theyid) {
+    document.getElementById('user-2').style.display = 'none';
+    theyid = null; // Reset theyid to allow matching with a new user
+
+    // Remove the remote stream when the user leaves
+    if (remoteStream) {
+      remoteStream.getTracks().forEach((track) => track.stop());
+      remoteStream = null;
+      document.getElementById('user-2').srcObject = null;
+    }
+  }
 };
 
 let createPeerConnection = async (MemberId) => {
@@ -117,7 +129,7 @@ let createAnswer = async (MemberId, offer) => {
 
   let answer = await peerConnection.createAnswer();
   await peerConnection.setLocalDescription(answer);
-
+  
   client.sendMessageToPeer({ text: JSON.stringify({ type: 'answer', answer: answer }) }, MemberId);
 };
 
@@ -181,16 +193,38 @@ function getPrompts(){
 
 let notification = new Audio('sounds/notif.wav')
 
-function prompting(){
-    const interval = 4000;
-    setInterval(() => {
-        let prompt = getPrompts()
-        if (prompt === undefined){
-            clearInterval()
-            return
-        }
-        notification.play()
-        document.getElementById("prompt").innerHTML = prompt
-        
-    }, interval);
+
+function prompting() {
+  const interval = 4000;
+  const promptContainer = document.getElementById('prompt-container');
+
+  const showPrompt = (message) => {
+    const prompt = document.createElement('div');
+    prompt.classList.add('prompt');
+    prompt.innerText = message;
+    promptContainer.appendChild(prompt);
+
+    // Trigger reflow to apply the initial opacity before the transition starts
+    prompt.getBoundingClientRect();
+
+    prompt.style.opacity = 1; // Set opacity to fully visible
+
+    // After a short delay, fade out and remove the prompt
+    setTimeout(() => {
+      prompt.style.opacity = 0; // Set opacity to fully transparent
+      setTimeout(() => {
+        prompt.remove(); // Remove the prompt element from the DOM
+      }, 500); // Wait for the transition to complete (0.5 seconds) before removing
+    }, interval - 500); // Show the prompt for (interval - 500) milliseconds before fading out
+  };
+
+  setInterval(() => {
+    let prompt = getPrompts();
+    if (prompt === undefined) {
+      clearInterval();
+      return;
+    }
+    notification.play();
+    showPrompt(prompt);
+  }, interval);
 }

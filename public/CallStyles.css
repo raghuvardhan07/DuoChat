@@ -1,21 +1,24 @@
-body{
+body {
     margin: 0;
     background-color: black;
-}
-.video-player{
+  }
+  
+  .video-player {
     background-color: black;
     transform: rotateY(180deg);
-    /* display: none; */
-}
-#user-1{
+  }
+  
+  #user-1 {
     position: absolute;
     left: 1rem;
     top: 1rem;
     width: 18rem;
     border-radius: 10px;
     border: 3px solid white;
-}
-#default-1{
+    
+  }
+  
+  #default-1 {
     display: none;
     position: absolute;
     left: 1rem;
@@ -24,58 +27,112 @@ body{
     height: 13rem;
     border-radius: 10px;
     border: 3px solid white;
-}
-#user-2{
+  }
+  
+  #user-2 {
     position: absolute;
     width: 100vw;
     height: 100vh;
     z-index: -1;
-}
-#controls{
+  }
+  
+  /* Prompt Styles */
+  #prompt-container {
+    position: absolute;
+    display: flex;
+    bottom: 120px;
+    width: 100vw;
+    text-align: center;
+    pointer-events: none;
+    z-index: 9999;
+    justify-content: center;
+  }
+  
+  .prompt {
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #333;
+    background-color: azure;
+    box-shadow: 2px 2px #333;
+    font-size: 1rem;
+    font-weight: 800;
+    font-family: 'Space Grotesk';
+    display: inline-block;
+    opacity: 0; /* Set the initial opacity to 0 for the prompt */
+    transition: opacity 0.5s ease-in-out; /* Add a transition for the opacity change */
+  }
+  
+  #controls {
     position: fixed;
     bottom: 20px;
     left: 50%;
-    transform:translateX(-50%);
+    transform: translateX(-50%);
     display: flex;
     gap: 1em;
-}
-
-
-.control-container{
-  background-color: rgba(230, 207, 247, 0.9);
-  padding: 20px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-.control-container:hover{
+  }
+  
+  .control-container {
+    background-color: rgba(230, 207, 247, 0.9);
+    padding: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .control-container:hover {
     background-color: rgba(250, 249, 250, 0.9);
-}
-
-.control-container>img{
+  }
+  
+  .control-container>img {
     width: 2.5rem;
-}
-
-#username{
+  }
+  
+  #username {
     color: aliceblue;
     position: absolute;
     left: 86vw;
     bottom: 3rem;
     font-size: 2rem;
     font-family: 'Space Grotesk';
-}
-#username:hover{
+  }
+  
+  #username:hover {
     font-weight: bolder;
     transition: 1000ms;
-}
-
-#prompt{
-    padding-top: 18rem;
-    display: flex;
-    justify-content: center;
-    color: azure;
-    font-size: 2.2rem;
-    font-family: 'Space Grotesk';
-}
+  }
+  
+ 
+  
+  /* Media Queries for Responsiveness */
+  @media screen and (max-width: 768px) {
+    #user-1 {
+      width: 40vw; /* Adjusted size for user-1 screen on phone dimensions */
+      top: 0.5rem; /* Adjusted position for user-1 screen on phone dimensions */
+      left: 0.5rem;
+    }
+  
+    #default-1 {
+      width: 80vw; /* Adjusted size for default user-1 screen on phone dimensions */
+      height: 45vw; /* Adjusted height for default user-1 screen on phone dimensions */
+      top: 5rem; /* Adjusted position for default user-1 screen on phone dimensions */
+    }
+  
+    .control-container>img {
+      width: 1.5rem; /* Reduced size of icons on phone dimensions */
+    }
+  
+    #username {
+      left: 40vw; /* Adjusted position for username on phone dimensions */
+      bottom: 30vw;
+    }
+    #prompt{
+        font-size: 1rem;
+        bottom: 25vw;
+    }
+    #prompt-container{
+        bottom: 90px;
+    }
+  }
+  

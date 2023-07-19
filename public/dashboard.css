@@ -1,9 +1,21 @@
-body{
+/* Core Colors */
+:root {
+    --primary-color: #e01d4b;
+    --secondary-color: #d66f9d;
+    --accent-color: #efdee7;
+    --text-color: #333;
+    --background-color: #f7f7f7;
+  }
+  
+  /* General Styles */
+  body {
     margin: 0;
-    font-family: 'Space Grotesk';
-    background: linear-gradient(to bottom, #d66f9d, #e01d4b);
-}
-#navbar{
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--text-color);
+    background-color: var(--accent-color);
+  }
+  
+  #navbar{
     margin: 0;
     display: flex;
     gap: 2rem; 
@@ -12,7 +24,8 @@ body{
     align-items: center;
     list-style: none;
     font-size: 1.1rem;
-    background-color: #f582b2;
+    background-color: #b92b58;
+    color: #f7f7f7;
 }
 .dash-icons{
     display: flex;
@@ -24,7 +37,7 @@ body{
 #navbar img{
     width: 2rem;
     border-radius: 10px;
-    border: 2px solid;
+    border: 2px solid var(--text-color);
 }
 #logo{
     position: absolute;
@@ -37,7 +50,8 @@ body{
 #logo img{
     border: none;
 }
-.profile-container{
+  /* Profile Cards Styles */
+  .profile-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
     grid-template-rows: repeat(2, 1fr);
@@ -45,60 +59,71 @@ body{
     width: 85vw;
     margin: 3rem auto;
     
-}
-.profile-container img{
-    width: 5rem;
-    border-radius: 10px;
-    border: 2px solid;
-}
-.profile-card{
+  }
+  
+  .profile-card {
     width: 15rem;
     height: 12rem;
-    background: linear-gradient(to bottom, #751467, #4b0c1b);
+    background: linear-gradient(#ff99af, rgb(166, 81, 136));
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    border: 3px solid #850865;
+    border: 2.5px solid var(--text-color);
     transition: box-shadow 0.7s;
-    color: #ebe5e5;
-}
-.profile-card:hover{
-    background-color: #f3eded;
+    color: var(--text-color);
+    box-shadow: 0 0.2rem 0.2rem rgba(0, 0, 0, 0.2);;
+  }
+  
+  .profile-card:hover {
+    background-color: var(--background-color);
     cursor: pointer;
-    box-shadow: 4px 4px  rgb(53, 47, 47) ;
-}
-.infographic{
+    box-shadow: 4px 4px var(--text-color);
+  }
+  
+  .infographic {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-}
-.languages{
+  }
+  
+  .profile-container img {
+    width: 5rem;
+    border-radius: 10px;
+    border: 2px solid var(--text-color);
+  }
+  
+  .languages {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-form{
+  }
+  
+  /* Form and Button Styles */
+  form {
     margin-top: 2rem;
     margin-left: 7rem;
-}
-button{
-    background: radial-gradient( #ad92cc, #a81e3e);
+  }
+  
+  button {
+    background: radial-gradient(var(--secondary-color), var(--primary-color));
     width: 7rem;
     height: 3rem;
     border-radius: 10px;
-    color: #f1f1f1;
-    border: 3.5px solid #850865;
+    color: var(--background-color);
+    border: 2.5px solid var(--text-color);
     font-family: 'Space Grotesk';
     font-size: 1.7rem;
-    transition: border 0.6s ;
-}
-button:hover{
-    border: 4.5px solid #c27cad;
+    transition: border 0.6s;
+  }
+  
+  button:hover {
+    border: 4.5px solid var(--secondary-color);
     cursor: pointer;
-}
-.dropbtn {
+  }
+  
+  .dropbtn {
     border: none;
     cursor: pointer;
     display: flex;
@@ -109,6 +134,7 @@ button:hover{
   .dropdown {
     position: relative;
     display: inline-block;
+    
   }
   
   .dropdown-content {
@@ -119,6 +145,7 @@ button:hover{
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    border-radius: 5px;
   }
   
   .dropdown-content a {
@@ -128,11 +155,53 @@ button:hover{
     display: block;
   }
   
-  .dropdown-content a:hover {background-color: #f1f1f1}
+  .dropdown-content a:hover {background-color: #f1f1f1; border-radius: 5px;}
   
 
   .dropdown:hover .dropdown-content {
     display: block;
   }
+  /* Responsive Styles */
+  @media screen and (max-width: 768px) {
+    #navbar {
+        justify-content: space-between;
+        padding: 0 1rem;
+      }
+      .dropbtn > span {
+        display: none;
+      }
+    
+      #logo {
+        margin-left: 1rem;
+      }
+    
+      #profile-icon {
+        display: block;
+        margin-right: 2rem;
+      }
+      .profile-container {
+        grid-template-columns: 1fr; 
+        width: 95vw;
+        justify-items: center;
+      }
+    
+      
+      .profile-card img {
+        width: 5rem; /* Reduce image width on smaller screens to 50% of the card width */
+         /* Set a max-width for the image to avoid it becoming too large */
+      }
+    .dash-icons {
+      position: absolute;
+      right: 1rem;
+    }
   
- 
+    
+    #ping{
+        text-align: center;
+    }
+  
+    form {
+      margin-left: 1rem;
+    }
+  }
+  
