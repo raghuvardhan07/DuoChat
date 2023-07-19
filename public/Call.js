@@ -1,3 +1,4 @@
+// Call.js
 
 let APP_ID = "fcc3eec1f13a4294a61902e446b2588b";
 
@@ -53,6 +54,11 @@ let handleMessageFromPeer = async (message, MemberId) => {
     if (peerConnection) {
       peerConnection.addIceCandidate(message.candidate);
     }
+  }
+
+  if (message.type === 'prompt') {
+    // Show the received prompt from the other user
+    showPrompt(message.prompt);
   }
 };
 
@@ -129,7 +135,7 @@ let createAnswer = async (MemberId, offer) => {
 
   let answer = await peerConnection.createAnswer();
   await peerConnection.setLocalDescription(answer);
-  
+
   client.sendMessageToPeer({ text: JSON.stringify({ type: 'answer', answer: answer }) }, MemberId);
 };
 
@@ -180,7 +186,6 @@ document.getElementById('mic-btn').addEventListener('click', toggleMic);
 
 init();
 
-
 let prompts = ['What are you most worried about right now?', 'What would motivate you to run a marathon?', 'Would you rather go without junk food for a year or go without TV for a year?', 'If you could meet anybody in history, past or present, who would it be?', 'Which is better, being the boss or an employee?', 'Do you believe in fate?', "What are some things that you shouldn't say during a marriage proposal?", 'What is your favorite day of the year?', 'What movies have you re-watched the most number of times?' , 'What is the best part of your day?', 'Do you prefer cats or dogs?', 'Describe your favorite type of pizza?', 'What is your favorite sports team?', 'What was your worst restaurant experience?'];
 
 function getPrompts(){
@@ -193,31 +198,31 @@ function getPrompts(){
 
 let notification = new Audio('sounds/notif.wav')
 
-
-function prompting() {
+function showPrompt(message) {
   const interval = 4000;
   const promptContainer = document.getElementById('prompt-container');
 
-  const showPrompt = (message) => {
-    const prompt = document.createElement('div');
-    prompt.classList.add('prompt');
-    prompt.innerText = message;
-    promptContainer.appendChild(prompt);
+  const prompt = document.createElement('div');
+  prompt.classList.add('prompt');
+  prompt.innerText = message;
+  promptContainer.appendChild(prompt);
 
-    // Trigger reflow to apply the initial opacity before the transition starts
-    prompt.getBoundingClientRect();
+  // Trigger reflow to apply the initial opacity before the transition starts
+  prompt.getBoundingClientRect();
 
-    prompt.style.opacity = 1; // Set opacity to fully visible
+  prompt.style.opacity = 1; // Set opacity to fully visible
 
-    // After a short delay, fade out and remove the prompt
+  // After a short delay, fade out and remove the prompt
+  setTimeout(() => {
+    prompt.style.opacity = 0; // Set opacity to fully transparent
     setTimeout(() => {
-      prompt.style.opacity = 0; // Set opacity to fully transparent
-      setTimeout(() => {
-        prompt.remove(); // Remove the prompt element from the DOM
-      }, 500); // Wait for the transition to complete (0.5 seconds) before removing
-    }, interval - 500); // Show the prompt for (interval - 500) milliseconds before fading out
-  };
+      prompt.remove(); // Remove the prompt element from the DOM
+    }, 500); // Wait for the transition to complete (0.5 seconds) before removing
+  }, interval - 500); // Show the prompt for (interval - 500) milliseconds before fading out
+}
 
+function prompting() {
+  const interval = 4000;
   setInterval(() => {
     let prompt = getPrompts();
     if (prompt === undefined) {
@@ -226,5 +231,8 @@ function prompting() {
     }
     notification.play();
     showPrompt(prompt);
+
+    // Send the prompt message to the other user using Agora RTM
+    client.sendMessageToPeer({ text: JSON.stringify({ type: 'prompt', prompt: prompt }) }, theyid);
   }, interval);
 }
