@@ -180,7 +180,7 @@
         margin-right: 2rem;
       }
       .profile-container {
-        grid-template-columns: repeat(1, 1fr); 
+        grid-template-columns: repeat(1 , 1fr); 
         
         width: 95vw;
         justify-items: center;

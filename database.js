@@ -37,13 +37,14 @@ export async function getUserName(username) {
   return users.findOne({ username: username });
 }
 
-export async function createUser(name, gender, native, email, number, rating, username, password) {
+export async function createUser(name, gender, native, learning, email, number, rating, username, password) {
   const users = db.collection('users');
 
   const newUser = {
     name: name,
     gender: gender, 
     native: native,
+    learning: learning,
     email: email,
     number: number,
     rating: rating,
