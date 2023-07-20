@@ -70,6 +70,7 @@ let handleUserJoined = async (MemberId) => {
     theyid = MemberId;
     createOffer(MemberId);
     document.getElementById('username').style.display = 'none'; // Hide the username when the user is in the call
+    prompting()
   }
   // Don't call prompting() here. We want the user who joined later to start prompting.
 };
